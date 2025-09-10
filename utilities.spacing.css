@@ -1,0 +1,132 @@
+.u {
+  padding-block-start: var(--pt, var(--py, var(--p, initial)));
+  padding-block-end: var(--pb, var(--py, var(--p, initial)));
+  padding-inline-start: var(--ps, var(--px, var(--p, initial)));
+  padding-inline-end: var(--pe, var(--px, var(--p, initial)));
+
+  margin-block-start: var(--mt, var(--my, var(--m, initial)));
+  margin-block-end: var(--mb, var(--my, var(--m, initial)));
+  margin-inline-start: var(--ms, var(--mx, var(--m, initial)));
+  margin-inline-end: var(--me, var(--mx, var(--m, initial)));
+
+  border-width: var(--bw, initial);
+  border-style: var(--bs, solid);
+  border-color: var(--bc, var(--page-border));
+  border-radius: var(--br, initial);
+}
+
+.p-0 {
+  --p: var(--space-0);
+}
+.p-8 {
+  --p: var(--space-8);
+}
+.p-12 {
+  --p: var(--space-12);
+}
+.p-16 {
+  --p: var(--space-16);
+}
+.p-20 {
+  --p: var(--space-20);
+}
+.p-24 {
+  --p: var(--space-24);
+}
+.p-32 {
+  --p: var(--space-32);
+}
+
+.px-8 {
+  --px: var(--space-8);
+}
+.px-16 {
+  --px: var(--space-16);
+}
+.px-24 {
+  --px: var(--space-24);
+}
+.py-8 {
+  --py: var(--space-8);
+}
+.py-16 {
+  --py: var(--space-16);
+}
+.py-24 {
+  --py: var(--space-24);
+}
+
+.pt-16 {
+  --pt: var(--space-16);
+}
+.pb-16 {
+  --pb: var(--space-16);
+}
+
+.m-0 {
+  --m: var(--space-0);
+}
+.m-8 {
+  --m: var(--space-8);
+}
+.m-16 {
+  --m: var(--space-16);
+}
+.mt-16 {
+  --mt: var(--space-16);
+}
+.mb-16 {
+  --mb: var(--space-16);
+}
+.mx-24 {
+  --mx: var(--space-24);
+}
+.my-32 {
+  --my: var(--space-32);
+}
+
+.b-0 {
+  --bw: var(--border-0);
+}
+.b-1 {
+  --bw: var(--border-1);
+}
+.b-2 {
+  --bw: var(--border-2);
+}
+.bc-muted {
+  --bc: var(--page-card-border);
+}
+.bc-strong {
+  --bc: var(--filter-tag-text);
+}
+.br-sm {
+  --br: var(--radius-sm);
+}
+.br-lg {
+  --br: var(--radius-lg);
+}
+
+.bt-1 {
+  border-top-width: var(--border-1);
+  border-top-style: solid;
+}
+.bb-1 {
+  border-bottom-width: var(--border-1);
+  border-bottom-style: solid;
+}
+.bx-1 {
+  border-inline-width: var(--border-1);
+  border-style: solid;
+}
+.by-1 {
+  border-block-width: var(--border-1);
+  border-style: solid;
+}
+
+.container {
+  width: 100%;
+  max-width: var(--container-xl);
+  margin-inline: auto;
+  padding-inline: var(--space-24);
+}

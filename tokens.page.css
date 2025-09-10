@@ -1,0 +1,96 @@
+/* =========================================================
+   02. PAGE TOKENS
+   Слой страницы маппит UI на токены темы и графиков.
+   Структура:
+   1) Светлая тема (:root)
+   2) Тёмная тема (:root[data-theme="dark"])
+   ======================================================= */
+
+/* ========== 1) СВЕТЛАЯ ТЕМА (дефолт) ========== */
+:root {
+  /* Фон и текст */
+  --page-bg: var(--bg);
+  --page-bg-gradients: radial-gradient(
+      60vw 60vw at 8% 0%,
+      var(--bg-grad-1) 0%,
+      transparent 70%
+    ),
+    radial-gradient(68vw 68vw at 92% 4%, var(--bg-grad-2) 0%, transparent 72%),
+    radial-gradient(80vw 80vw at 50% 98%, var(--bg-grad-3) 0%, transparent 74%);
+  /* Линейный слой как базовый градиент */
+  --page-bg-gradient-start: var(--bg);
+  --page-bg-gradient-end: var(--surface-1);
+  /* Параметры водяного знака */
+  --page-bg-logo-opacity: 0.3;
+  --page-bg-logo-size: clamp(480px, 32vw, 1080px);
+  --page-bg-logo-pos-y: 40%;
+  --page-bg-logo-url: url("logo-mc-recovery.png");
+  --page-text: var(--text-1);
+  --page-text-secondary: var(--text-2);
+  --brand-hero-text: hsl(220 28% 12%);
+
+  /* Бордеры и поверхности */
+  --page-border: var(--border);
+  --page-card-border: var(--border);
+  --page-card-border-inner: var(--border-strong);
+  --page-card-bg: var(--surface-1);
+
+  /* Ссылки, фокус, тени */
+  --page-link: var(--link);
+  --page-link-hover: var(--link-hover);
+  --page-focus: var(--focus);
+  /* используется в :focus-visible и skip-link */
+  --page-focus-outline: 2px solid color-mix(in hsl, var(--focus) 80%, white);
+  --page-shadow: var(--shadow-elev);
+
+  /* Выделение */
+  --selection-bg: var(--selection);
+
+  /* Статусы */
+  --page-success: var(--success, var(--teal-300));
+  --page-error: var(--error, var(--red-400));
+
+  /* Графики (семантические алиасы для стилей страницы) */
+  --chart-legend-text: var(--chart-text);
+  --chart-tick: var(--chart-text);
+  --chart-grid: var(--border);
+  --chart-border: var(--border);
+  --chart-series-a: var(--chart-src-1);
+  --chart-series-b: var(--chart-src-2);
+  --chart-series-c: var(--chart-src-3);
+  --chart-series-d: var(--chart-src-4);
+  --chart-series-e: var(--chart-src-5);
+  --chart-series-f: var(--chart-src-6);
+}
+
+/* Лайт (HSL) — near-black вместо #000 */
+:root {
+  --brand-hero-text: hsl(220 15% 16%); /* ≈ #111827 */
+}
+
+/* Дарк (HSL) — чисто белый */
+:root[data-theme="dark"] {
+  --brand-hero-text: hsl(0 0% 100%);
+}
+
+/* OKLCH поверх HSL */
+@supports (color: oklch(0 0 0)) {
+  :root {
+    --brand-hero-text: oklch(0.24 0.03 260);
+  }
+  :root[data-theme="dark"] {
+    --brand-hero-text: oklch(0.97 0 0);
+  }
+}
+/* ========== 2) ТЁМНАЯ ТЕМА (переопределения страницы) ========== */
+:root[data-theme="dark"] {
+  --page-bg-logo-opacity: 0.3;
+  --page-focus-outline: 2px solid color-mix(in hsl, var(--focus) 86%, white);
+  --brand-hero-text: hsl(0 0% 100%);
+  --page-bg-logo-url: url("logo-mc-recovery.png");
+}
+@supports (color: oklch(0 0 0)) {
+  :root[data-theme="dark"] {
+    --brand-hero-text: oklch(0.97 0 0);
+  }
+}

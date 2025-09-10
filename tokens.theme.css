@@ -1,0 +1,313 @@
+/* =========================================================
+   THEME TOKENS
+   Архитектура:
+   1) :root            → светлая тема (дефолт) + src-палитра графиков
+   2) [data-theme=dark]→ тёмная тема (HSL fallback от src)
+   3) @supports OKLCH  → усиление яркости/насыщенности без неона
+   Примечание: порядок подключения в <head> уже корректен
+   (primitives → theme → page → components → style).
+   ======================================================= */
+
+/* ========== 1) СВЕТЛАЯ ТЕМА (дефолт) ========== */
+:root {
+  /* Явно укажем схему для UA/форм-контролов */
+  color-scheme: light;
+  /* Фоновые градиенты страницы */
+  --bg-grad-1: hsl(200 100% 85% / 0.55); /* cyan/mint */
+  --bg-grad-2: hsl(330 100% 88% / 0.45); /* magenta */
+  --bg-grad-3: hsl(260 100% 90% / 0.35); /* violet */
+
+  /* Базовые семантики UI (опираются на primitives) */
+  --bg: var(--gray-0);
+  --surface-1: white;
+  --surface-2: var(--gray-50);
+
+  --text-1: hsl(220 28% 12%);
+  --text-2: hsl(0, 3%, 23%); /* унифицировал пробельный синтаксис */
+  --text-date: color-mix(in hsl, var(--text-1) 40%, var(--text-2)); /* ← ; */
+
+  --border: color-mix(in hsl, var(--gray-900) 12%, white);
+  --border-strong: color-mix(in hsl, var(--gray-900) 22%, white);
+
+  --focus: color-mix(in hsl, var(--accent) 60%, white);
+
+  /* Акцент (цвет и родственные токены) */
+  --accent-bg: var(--accent);
+  --accent-ink: var(--white);
+  --on-accent: var(--accent-ink);
+  --on-accent-strong: var(--accent-ink);
+  --accent-ghost: color-mix(in hsl, var(--accent) 12%, transparent);
+  --accent-muted: color-mix(in hsl, var(--accent) 18%, white);
+
+  /* Ссылки/выделение/тени */
+  --link: hsl(225 90% 46%);
+  --link-hover: hsl(225 90% 40%);
+  --selection: color-mix(in hsl, var(--accent) 25%, white);
+  --shadow-elev: var(--shadow-md);
+
+  /* Статусы (дублируем для ясности на уровне темы) */
+  --success: hsl(142, 70%, 45%);
+  --warning: hsl(38 90% 55%);
+  --error: hsl(0 75% 55%);
+  --info: hsl(196 70% 45%);
+
+  /* ---------- Палитра графиков: ИСТОЧНИКИ (не переопределяются нигде) ---------- */
+  --chart-src-1: hsl(30 90% 52%); /* BTC — оранжево-золотой */
+  --chart-src-2: hsl(220 28% 58%); /* ETH — стальной сине-серый */
+  --chart-src-3: hsl(200 85% 50%); /* HYPE — электрический циан */
+  --chart-src-4: hsl(265 70% 55%); /* SOL — фиолетово-синий */
+  --chart-src-5: hsl(48 92% 52%); /* BNB — янтарный */
+  --chart-src-6: hsl(205 35% 50%); /* XRP — слэйт-синий */
+  --chart-src-7: hsl(210 75% 52%); /* ADA — чистый синий */
+  --chart-src-8: hsl(42 85% 52%); /* DOGE — золотистый */
+  --chart-src-9: hsl(188 78% 47%); /* TON — циан/тил */
+  --chart-src-10: hsl(220 8% 62%); /* LTC — серебристый */
+  --chart-src-11: hsl(355 80% 52%); /* AVAX — карминовый */
+  --chart-src-12: hsl(5 85% 50%); /* TRX — алый */
+  --chart-src-13: hsl(272 70% 53%); /* MATIC — индиго/фиолетовый */
+  --chart-src-14: hsl(215 80% 50%); /* LINK — королевский синий */
+  --chart-src-15: hsl(140 60% 45%); /* BCH — изумрудный */
+  --chart-src-16: hsl(205 40% 56%); /* ARB — холодный сине-серый */
+  --chart-src-17: hsl(10 90% 54%); /* OP — красно-оранжевый */
+  --chart-src-18: hsl(330 65% 56%); /* UNI — розово-фуксия */
+  --chart-src-19: hsl(300 70% 55%); /* WIF — яркий фиолетовый */
+  --chart-src-20: hsl(155 45% 42%); /* PENDLE — лесной зелёный */
+
+  /* ---------- Семантические цвета графиков (Лайт) от источников ---------- */
+  --chart-1: var(--chart-src-1);
+  --chart-2: var(--chart-src-2);
+  --chart-3: var(--chart-src-3);
+  --chart-4: var(--chart-src-4);
+  --chart-5: var(--chart-src-5);
+  --chart-6: var(--chart-src-6);
+  --chart-7: var(--chart-src-7);
+  --chart-8: var(--chart-src-8);
+  --chart-9: var(--chart-src-9);
+  --chart-10: var(--chart-src-10);
+  --chart-11: var(--chart-src-11);
+  --chart-12: var(--chart-src-12);
+  --chart-13: var(--chart-src-13);
+  --chart-14: var(--chart-src-14);
+  --chart-15: var(--chart-src-15);
+  --chart-16: var(--chart-src-16);
+  --chart-17: var(--chart-src-17);
+  --chart-18: var(--chart-src-18);
+  --chart-19: var(--chart-src-19);
+  --chart-20: var(--chart-src-20);
+
+  /* Алиасы для монет (JS читает именно эти var’ы) */
+  --coin-btc: var(--chart-1);
+  --coin-eth: var(--chart-2);
+  --coin-hype: var(--chart-3);
+  --coin-sol: var(--chart-4);
+  --coin-bnb: var(--chart-5);
+  --coin-xrp: var(--chart-6);
+  --coin-ada: var(--chart-7);
+  --coin-doge: var(--chart-8);
+  --coin-ton: var(--chart-9);
+  --coin-ltc: var(--chart-10);
+  --coin-avax: var(--chart-11);
+  --coin-trx: var(--chart-12);
+  --coin-matic: var(--chart-13);
+  --coin-link: var(--chart-14);
+  --coin-bch: var(--chart-15);
+  --coin-arb: var(--chart-16);
+  --coin-op: var(--chart-17);
+  --coin-uni: var(--chart-18);
+  --coin-wif: var(--chart-19);
+  --coin-pendle: var(--chart-20);
+
+  /* UI-токены для чартов */
+  --chart-grid: var(--border);
+  --chart-text: var(--text-2);
+  --chart-border: var(--border);
+  --chart-legend-text: var(--chart-text);
+  --chart-tick: var(--chart-text);
+
+  /* Fallback для неизвестных монет */
+  --coin-default: var(--accent);
+}
+
+/* Явная метка (необязательно, но улучшает UA-подсказки) */
+:root[data-theme="light"] {
+  color-scheme: light;
+}
+
+/* ========== 2) ТЁМНАЯ ТЕМА (HSL fallback) ========== */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  /* Дарк: подписи осей/легенд — чуть «тише», чтобы не спорить с линиями */
+  --chart-text: var(--text-1);
+  --chart-legend-text: var(--chart-text);
+  --chart-tick: var(--chart-text);
+  /* Базовые семантики */
+  --bg-grad-1: hsl(190 90% 45% / 0.22); /* teal */
+  --bg-grad-2: hsl(345 90% 55% / 0.18); /* pink/red */
+  --bg-grad-3: hsl(260 90% 60% / 0.16); /* purple */
+
+  --bg: hsl(220 20% 9%);
+  --surface-1: hsl(220 20% 12%);
+  --surface-2: hsl(220 20% 16%);
+
+  --text-1: hsl(220 18% 92%);
+  --text-2: hsl(0, 0%, 97%);
+  --text-date: color-mix(in hsl, var(--text-1) 46%, var(--text-2));
+
+  --border: color-mix(in hsl, white 12%, var(--surface-1));
+  --border-strong: color-mix(in hsl, white 22%, var(--surface-1));
+  --focus: color-mix(in hsl, var(--accent) 55%, white);
+
+  --accent-bg: color-mix(in hsl, var(--accent) 85%, black);
+  --accent-text: white;
+  --on-accent: var(--accent-text);
+  --on-accent-strong: var(--accent-text);
+  --accent-ghost: color-mix(in hsl, var(--accent) 20%, transparent);
+  --accent-muted: color-mix(in hsl, var(--accent) 22%, var(--surface-1));
+
+  --link: color-mix(in hsl, var(--accent) 80%, white);
+  --link-hover: color-mix(in hsl, var(--accent) 75%, white);
+  --selection: color-mix(in hsl, var(--accent) 28%, black);
+  --shadow-elev: var(--shadow-lg);
+
+  /* Тёмная версия палитры графиков (HSL-fallback от источников):
+     слегка «гасим неон» подмешиванием белого, сохраняя узнаваемость. */
+  --chart-1: color-mix(in hsl, var(--chart-src-1) 90%, white); /* BTC */
+  --chart-2: color-mix(in hsl, var(--chart-src-2) 90%, white); /* ETH */
+  --chart-3: color-mix(in hsl, var(--chart-src-3) 90%, white); /* HYPE */
+  --chart-4: color-mix(in hsl, var(--chart-src-4) 90%, white); /* SOL */
+  --chart-5: color-mix(in hsl, var(--chart-src-5) 90%, white); /* BNB */
+  --chart-6: color-mix(in hsl, var(--chart-src-6) 90%, white); /* XRP */
+  --chart-7: color-mix(in hsl, var(--chart-src-7) 90%, white); /* ADA */
+  --chart-8: color-mix(in hsl, var(--chart-src-8) 90%, white); /* DOGE */
+  --chart-9: color-mix(in hsl, var(--chart-src-9) 90%, white); /* TON */
+  --chart-10: color-mix(in hsl, var(--chart-src-10) 90%, white); /* LTC */
+  --chart-11: color-mix(in hsl, var(--chart-src-11) 90%, white); /* AVAX */
+  --chart-12: color-mix(in hsl, var(--chart-src-12) 90%, white); /* TRX */
+  --chart-13: color-mix(in hsl, var(--chart-src-13) 90%, white); /* MATIC */
+  --chart-14: color-mix(in hsl, var(--chart-src-14) 90%, white); /* LINK */
+  --chart-15: color-mix(in hsl, var(--chart-src-15) 90%, white); /* BCH */
+  --chart-16: color-mix(in hsl, var(--chart-src-16) 90%, white); /* ARB */
+  --chart-17: color-mix(in hsl, var(--chart-src-17) 90%, white); /* OP */
+  --chart-18: color-mix(in hsl, var(--chart-src-18) 90%, white); /* UNI */
+  --chart-19: color-mix(in hsl, var(--chart-src-19) 90%, white); /* WIF */
+  --chart-20: color-mix(in hsl, var(--chart-src-20) 90%, white); /* PENDLE */
+}
+
+/* ========== 3) OKLCH-УСИЛЕНИЕ (где поддерживается) ========== */
+@supports (color: oklch(0 0 0)) {
+  :root[data-theme="dark"] {
+    /* Регуляторы (можно твикать под вкус/контраст, но держим пределы для UX):
+       - L (lightness) слегка ↑, но cap ≤ 0.83, чтобы не выжигать фон.
+       - C (chroma) ощутимо ↑, cap ≤ 0.24 (или ниже для «металлов»). */
+    --chart-l-mul: 1.08;
+    --chart-l-max: 0.83;
+    --chart-c-mul: 1.25;
+    --chart-c-max: 0.24;
+    --chart-c-min: 0.1;
+
+    /* Общая формула от ИСТОЧНИКОВ → итоговые chart-цвета */
+    --chart-1: oklch(
+      from var(--chart-src-1)
+        clamp(0, l * var(--chart-l-mul), var(--chart-l-max))
+        clamp(var(--chart-c-min), c * var(--chart-c-mul), var(--chart-c-max)) h
+    );
+    /* ETH — «стальной» без неона: мягче усиление chroma и ниже кап */
+    --chart-2: oklch(
+      from var(--chart-src-2)
+        clamp(0, l * var(--chart-l-mul), var(--chart-l-max))
+        clamp(0.12, c * 1.25, 0.2) h
+    );
+    --chart-3: oklch(
+      from var(--chart-src-3)
+        clamp(0, l * var(--chart-l-mul), var(--chart-l-max))
+        clamp(var(--chart-c-min), c * var(--chart-c-mul), var(--chart-c-max)) h
+    );
+    --chart-4: oklch(
+      from var(--chart-src-4)
+        clamp(0, l * var(--chart-l-mul), var(--chart-l-max))
+        clamp(var(--chart-c-min), c * var(--chart-c-mul), var(--chart-c-max)) h
+    );
+    --chart-5: oklch(
+      from var(--chart-src-5)
+        clamp(0, l * var(--chart-l-mul), var(--chart-l-max))
+        clamp(var(--chart-c-min), c * var(--chart-c-mul), var(--chart-c-max)) h
+    );
+    --chart-6: oklch(
+      from var(--chart-src-6)
+        clamp(0, l * var(--chart-l-mul), var(--chart-l-max))
+        clamp(var(--chart-c-min), c * var(--chart-c-mul), var(--chart-c-max)) h
+    );
+    --chart-7: oklch(
+      from var(--chart-src-7)
+        clamp(0, l * var(--chart-l-mul), var(--chart-l-max))
+        clamp(var(--chart-c-min), c * var(--chart-c-mul), var(--chart-c-max)) h
+    );
+    --chart-8: oklch(
+      from var(--chart-src-8)
+        clamp(0, l * var(--chart-l-mul), var(--chart-l-max))
+        clamp(var(--chart-c-min), c * var(--chart-c-mul), var(--chart-c-max)) h
+    );
+    --chart-9: oklch(
+      from var(--chart-src-9)
+        clamp(0, l * var(--chart-l-mul), var(--chart-l-max))
+        clamp(var(--chart-c-min), c * var(--chart-c-mul), var(--chart-c-max)) h
+    );
+
+    /* LTC — «серебро»: держим сдержаннее chroma и чуть выше L-cap */
+    --chart-10: oklch(
+      from var(--chart-src-10) clamp(0, l * 1.04, 0.86)
+        clamp(0.08, c * 1.1, 0.16) h
+    );
+
+    --chart-11: oklch(
+      from var(--chart-src-11)
+        clamp(0, l * var(--chart-l-mul), var(--chart-l-max))
+        clamp(var(--chart-c-min), c * var(--chart-c-mul), var(--chart-c-max)) h
+    );
+    --chart-12: oklch(
+      from var(--chart-src-12)
+        clamp(0, l * var(--chart-l-mul), var(--chart-l-max))
+        clamp(var(--chart-c-min), c * var(--chart-c-mul), var(--chart-c-max)) h
+    );
+    --chart-13: oklch(
+      from var(--chart-src-13)
+        clamp(0, l * var(--chart-l-mul), var(--chart-l-max))
+        clamp(var(--chart-c-min), c * var(--chart-c-mul), var(--chart-c-max)) h
+    );
+    --chart-14: oklch(
+      from var(--chart-src-14)
+        clamp(0, l * var(--chart-l-mul), var(--chart-l-max))
+        clamp(var(--chart-c-min), c * var(--chart-c-mul), var(--chart-c-max)) h
+    );
+    --chart-15: oklch(
+      from var(--chart-src-15)
+        clamp(0, l * var(--chart-l-mul), var(--chart-l-max))
+        clamp(var(--chart-c-min), c * var(--chart-c-mul), var(--chart-c-max)) h
+    );
+    --chart-16: oklch(
+      from var(--chart-src-16)
+        clamp(0, l * var(--chart-l-mul), var(--chart-l-max))
+        clamp(var(--chart-c-min), c * var(--chart-c-mul), var(--chart-c-max)) h
+    );
+    --chart-17: oklch(
+      from var(--chart-src-17)
+        clamp(0, l * var(--chart-l-mul), var(--chart-l-max))
+        clamp(var(--chart-c-min), c * var(--chart-c-mul), var(--chart-c-max)) h
+    );
+    --chart-18: oklch(
+      from var(--chart-src-18)
+        clamp(0, l * var(--chart-l-mul), var(--chart-l-max))
+        clamp(var(--chart-c-min), c * var(--chart-c-mul), var(--chart-c-max)) h
+    );
+    --chart-19: oklch(
+      from var(--chart-src-19)
+        clamp(0, l * var(--chart-l-mul), var(--chart-l-max))
+        clamp(var(--chart-c-min), c * var(--chart-c-mul), var(--chart-c-max)) h
+    );
+    --chart-20: oklch(
+      from var(--chart-src-20)
+        clamp(0, l * var(--chart-l-mul), var(--chart-l-max))
+        clamp(var(--chart-c-min), c * var(--chart-c-mul), var(--chart-c-max)) h
+    );
+  }
+}

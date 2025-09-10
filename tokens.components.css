@@ -1,0 +1,234 @@
+/* =========================================================
+   COMPONENT TOKENS
+   1) Светлая тема (:root)
+   2) Тёмная тема (:root[data-theme="dark"])
+   3) Профиль UI "glossy" (опционально)
+   Замечание: стили используют эти токены в .card/.card--stat/
+   .card--position, .positions-count, .detail-label, .coin-name и др.
+   ======================================================= */
+
+/* ========== 1) СВЕТЛАЯ ТЕМА (дефолт) ========== */
+:root {
+  /* ---------- Хедер ---------- */
+  --header-bg: color-mix(in hsl, var(--black) 3%, transparent);
+  --header-border: color-mix(in hsl, var(--black) 10%, transparent);
+
+  /* ---------- Фильтры ---------- */
+  --filters-bg: color-mix(in hsl, var(--white) 5%, transparent);
+  --filters-border: color-mix(in hsl, var(--white) 20%, transparent);
+  --filters-select-bg: color-mix(in hsl, var(--white) 5%, transparent);
+  --filters-select-border: color-mix(in hsl, var(--white) 20%, transparent);
+  --filters-select-bg-focus: color-mix(in hsl, var(--white) 8%, transparent);
+
+  /* Активные фильтры / теги */
+  --filter-tag-bg: color-mix(in hsl, var(--accent) 18%, var(--surface-1));
+  --filter-tag-border: color-mix(in hsl, var(--accent) 36%, var(--surface-1));
+  --filter-tag-text: var(--accent);
+  --filter-tag-bg-strong: color-mix(
+    in hsl,
+    var(--accent) 35%,
+    var(--surface-1)
+  );
+  --filter-tag-text-contrast: var(--on-accent-strong);
+
+  /* Выбранный пункт меню (sort-menu и т.п.) */
+  --menu-selected-bg: color-mix(in hsl, var(--accent) 22%, var(--surface-1));
+  --menu-selected-text: var(--text-1);
+  /* ---------- Кнопки ---------- */
+  --btn-bg: var(--accent-bg);
+  --btn-text: var(--accent-text);
+  --btn-bg-hover: color-mix(in hsl, var(--accent-bg) 90%, black);
+  --btn-bg-active: color-mix(in hsl, var(--accent-bg) 80%, black);
+  --btn-outline: var(--accent-bg);
+  --btn-outline-bg: var(--surface-1);
+  --btn-outline-bg-hover: color-mix(
+    in hsl,
+    var(--surface-1) 90%,
+    var(--accent)
+  );
+  --btn-outline-border: var(--accent);
+  --btn-outline-text: var(--accent);
+  --btn-primary-bg: var(--accent);
+  --btn-primary-bg-hover: color-mix(in hsl, var(--accent) 88%, black);
+  --btn-primary-bg-active: color-mix(in hsl, var(--accent) 78%, black);
+  --btn-primary-text: var(--accent-ink);
+
+  /* Непрозрачные нейтрали для стабильного AA */
+  --btn-secondary-bg: color-mix(in hsl, var(--surface-1) 85%, var(--gray-400));
+  --btn-secondary-bg-hover: color-mix(
+    in hsl,
+    var(--surface-1) 78%,
+    var(--gray-400)
+  );
+  --btn-secondary-bg-active: color-mix(
+    in hsl,
+    var(--surface-1) 72%,
+    var(--gray-400)
+  );
+  --btn-secondary-border: color-mix(
+    in hsl,
+    var(--gray-400) 30%,
+    var(--surface-1)
+  );
+  --btn-secondary-text: var(--page-text);
+
+  /* Ghost-профиль для кнопок без заливки */
+  --btn-ghost-bg: transparent;
+  --btn-ghost-bg-hover: color-mix(in hsl, var(--page-text) 10%, transparent);
+  --btn-ghost-bg-active: color-mix(in hsl, var(--page-text) 16%, transparent);
+  --btn-ghost-text: var(--page-text);
+  --btn-ghost-border: transparent;
+  --btn-ghost-text-hover: var(--page-text);
+  --btn-ghost-border-hover: color-mix(
+    in hsl,
+    var(--page-text) 22%,
+    transparent
+  );
+  /* ---------- Карточки статистики ---------- */
+  --stat-card-bg: var(--surface-1);
+  --stat-card-border: var(--border);
+  --stat-card-border-hover: color-mix(
+    in hsl,
+    var(--accent) 36%,
+    var(--border-strong)
+  );
+  --stat-card-accent-1: color-mix(in hsl, var(--success) 18%, transparent);
+  --stat-card-accent-2: color-mix(in hsl, var(--warning) 18%, transparent);
+  --stat-card-accent-3: color-mix(in hsl, var(--info) 18%, transparent);
+  --stat-card-accent-4: color-mix(in hsl, var(--error) 18%, transparent);
+
+  /* ---------- Карточки позиций ---------- */
+  /* Совместимо со стилями .card--position / .position-card и их :hover. */
+  --positions-card-bg: var(--surface-1);
+  --positions-card-border: var(--page-card-border);
+  --positions-card-border-hover: color-mix(
+    in hsl,
+    var(--accent) 36%,
+    var(--border-strong)
+  );
+
+  /* Едва заметная «дымка» поверх карточки (по умолчанию выключена). */
+  --positions-card-tint: transparent;
+
+  /* Лейблы деталей (Плечо, Объем…) — изолируем от глобального secondary */
+  --positions-detail-label-text: var(--page-text-secondary);
+
+  /* Чип «Показано: N» (light) */
+  --positions-count-bg: color-mix(in hsl, var(--gray-400) 12%, transparent);
+  --positions-count-text: var(--page-text-secondary);
+  --positions-count-border: color-mix(in hsl, var(--gray-400) 26%, transparent);
+
+  /* Бейдж направления (Лонг/Шорт) */
+  --direction-long-bg: color-mix(in hsl, var(--success) 12%, var(--surface-1));
+  --direction-long-border: color-mix(
+    in hsl,
+    var(--success) 30%,
+    var(--surface-1)
+  );
+  --direction-long-text: var(--success);
+  /* Бейджи направления SHORT: то же */
+  --direction-short-bg: color-mix(in hsl, var(--danger) 12%, var(--surface-1));
+  --direction-short-border: color-mix(
+    in hsl,
+    var(--danger) 30%,
+    var(--surface-1)
+  );
+  --direction-short-text: var(--danger);
+
+  /* PnL */
+  --pnl-positive-text: var(--page-success);
+  --pnl-negative-text: var(--page-error);
+
+  /* Пустые данные */
+  --no-data-icon: color-mix(in hsl, var(--white) 50%, transparent);
+}
+
+/* ========== 2) ТЁМНАЯ ТЕМА (переопределения) ========== */
+:root[data-theme="dark"] {
+  /* Карточки статистики */
+  --stat-card-bg: var(--surface-2);
+  --stat-card-border: var(--border);
+  --stat-card-border-hover: color-mix(
+    in hsl,
+    var(--accent) 44%,
+    var(--border-strong)
+  );
+
+  /* Карточки позиций: лёгкое «поднятие» плоскости и выразительнее hover */
+  --positions-card-bg: color-mix(in hsl, white 6%, var(--surface-1));
+  --positions-card-border: var(--page-card-border);
+  --positions-card-border-hover: color-mix(
+    in hsl,
+    var(--accent) 46%,
+    var(--border-strong)
+  );
+
+  /* Лейблы деталей — можно сделать каплю контрастнее на тёмном фоне */
+  --positions-detail-label-text: color-mix(
+    in hsl,
+    var(--text-1) 55%,
+    var(--text-2)
+  );
+
+  /* Чип «Показано: N» (dark) — чуть «стекляннее» */
+  --positions-count-bg: color-mix(in hsl, white 12%, transparent);
+  --positions-count-text: var(--page-text-secondary);
+  --positions-count-border: color-mix(in hsl, white 22%, transparent);
+
+  /* Подкрутка secondary/ghost под тёмный фон (чуть выше контраст) */
+  --btn-secondary-bg: color-mix(in hsl, var(--surface-2) 90%, white);
+  --btn-secondary-bg-hover: color-mix(in hsl, var(--surface-2) 80%, white);
+  --btn-secondary-bg-active: color-mix(in hsl, var(--surface-2) 72%, white);
+  --btn-secondary-text: var(--text-1);
+  --btn-secondary-border: color-mix(in hsl, white 16%, var(--surface-2));
+  --btn-ghost-bg-hover: color-mix(in hsl, white 10%, transparent);
+  --btn-ghost-bg-active: color-mix(in hsl, white 16%, transparent);
+  --btn-outline-bg: var(--surface-2);
+  --btn-outline-bg-hover: color-mix(
+    in hsl,
+    var(--surface-2) 85%,
+    var(--accent)
+  );
+  --btn-outline-border: var(--accent);
+  --btn-outline-text: color-mix(in hsl, var(--accent) 90%, white);
+
+  /* Теги: в дарке — чуть больше акцента для читаемости */
+  --filter-tag-bg: color-mix(in hsl, var(--accent) 32%, var(--surface-2));
+  --filter-tag-border: color-mix(in hsl, var(--accent) 48%, var(--surface-2));
+  --filter-tag-text: var(--on-accent);
+}
+
+/* ========== 3) ПРОФИЛЬ UI: GLOSSY (опционально) ========== */
+/* Включается атрибутом data-ui="glossy" на <html> / :root */
+:root[data-ui="glossy"] {
+  /* Чуть более сочные ховеры/дымка */
+  --positions-card-tint: color-mix(in hsl, var(--accent) 6%, transparent);
+  --stat-card-border-hover: color-mix(
+    in hsl,
+    var(--accent) 42%,
+    var(--border-strong)
+  );
+  --positions-card-border-hover: color-mix(
+    in hsl,
+    var(--accent) 44%,
+    var(--border-strong)
+  );
+
+  /* Дата — слегка «лейбовая» */
+  --positions-date-text: color-mix(in hsl, var(--text-date) 85%, var(--accent));
+}
+:root[data-theme="dark"][data-ui="glossy"] {
+  --positions-card-tint: color-mix(in hsl, var(--accent) 10%, transparent);
+  --stat-card-border-hover: color-mix(
+    in hsl,
+    var(--accent) 50%,
+    var(--border-strong)
+  );
+  --positions-card-border-hover: color-mix(
+    in hsl,
+    var(--accent) 52%,
+    var(--border-strong)
+  );
+
+  --positions-date-text: color-mix(in hsl, var(--text-date) 80%, var(--accent));
+}
