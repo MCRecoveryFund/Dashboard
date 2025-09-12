@@ -775,7 +775,7 @@ details.chart-data[open] > summary::after {
   border: 1px solid var(--stat-card-border);
   border-radius: var(--radius-lg);
   container-type: inline-size;
-  padding: var(--space-16);
+  padding: var(--space-1);
 }
 
 .chart-card h3,
@@ -1084,7 +1084,7 @@ body {
   overflow: hidden;
 }
 .card__body {
-  padding: var(--p, var(--space-16));
+  padding: var(--p, var(--space-4));
   display: block;
 }
 
@@ -1116,10 +1116,6 @@ a:hover {
 
 .card--chart {
   contain-intrinsic-size: 360px 280px;
-}
-
-.card__body {
-  display: block;
 }
 
 .header,
