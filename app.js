@@ -63,7 +63,6 @@ class TradingDashboard {
       if (!res.ok) throw new Error(`HTTP ${res.status} at ${url}`);
       const text = await res.text();
 
-      // Papa Parse: снимаем BOM в заголовках
       if (
         typeof Papa !== "undefined" &&
         Papa &&
