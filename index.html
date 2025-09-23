@@ -9,15 +9,12 @@
     <meta name="color-scheme" content="light dark" />
     <title>MC Recovery Fund</title>
 
-    <!-- Canonical favicons -->
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-    <!-- PWA / Android -->
     <link rel="manifest" href="/site.webmanifest" />
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
-    <!-- Поддержка разных тем -->
     <meta
       name="theme-color"
       media="(prefers-color-scheme: light)"
@@ -29,7 +26,6 @@
       content="#0a0f1a"
     />
 
-    <!-- Порядок важен: primitives → page → components → styles -->
     <link rel="stylesheet" href="styles.css" fetchpriority="high" />
     <link
       rel="preload"
@@ -42,7 +38,7 @@
     <script>
       (function () {
         try {
-          var saved = localStorage.getItem("theme"); // 'light' | 'dark' | null
+          var saved = localStorage.getItem("theme");
           var theme =
             saved && (saved === "light" || saved === "dark")
               ? saved
@@ -78,7 +74,6 @@
           </div>
         </div>
       </header>
-      <!-- Кнопки действий в хедере (правый верх) -->
       <div class="header-actions" aria-label="Действия интерфейса">
         <button
           id="theme-toggle"
@@ -176,7 +171,6 @@
               >
             </div>
           </div>
-          <!-- Постоянная live-зона для статусов фильтров -->
           <p
             id="filters-status"
             class="visually-hidden"
@@ -184,7 +178,6 @@
             aria-live="polite"
             aria-atomic="true"
           ></p>
-          <!-- Панель «все фильтры» (раскрывается по кнопке) -->
           <div class="more-filters" id="more-filters" hidden>
             <div class="filter-group">
               <label class="filter-label" for="year-select">Год:</label>
@@ -229,9 +222,7 @@
           </div>
         </div>
       </div>
-      <!-- Основное содержимое -->
       <main class="main-content" id="main-content" role="main">
-        <!-- Панель статистики -->
         <div class="stats-grid">
           <div class="card card--stat" data-bg="1">
             <div class="card__body">
@@ -330,7 +321,6 @@
             </div>
           </div>
         </div>
-        <!-- Секция графиков -->
         <div class="charts-section">
           <div class="card card--chart">
             <div class="card__body">
@@ -410,7 +400,6 @@
             </div>
           </div>
         </div>
-        <!-- Секция позиций -->
         <div class="positions-section">
           <div class="section-header">
             <div class="section-title-row">
@@ -531,7 +520,6 @@
           <div class="positions-grid" id="positions-grid"></div>
         </div>
       </main>
-      <!-- Сообщение об отсутствии данных -->
       <div class="no-data-message" id="no-data-message" style="display: none">
         <div class="no-data-content">
           <div class="no-data-icon">📈</div>
