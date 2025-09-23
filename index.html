@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <meta name="color-scheme" content="light dark" />
+    <title>MC Recovery Fund</title>
+
+    <!-- Canonical favicons -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <!-- PWA / Android -->
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+    <!-- Поддержка разных тем -->
+    <meta
+      name="theme-color"
+      media="(prefers-color-scheme: light)"
+      content="#2B5BEE"
+    />
+    <meta
+      name="theme-color"
+      media="(prefers-color-scheme: dark)"
+      content="#0a0f1a"
+    />
+
+    <!-- Порядок важен: primitives → page → components → styles -->
+    <link rel="stylesheet" href="styles.css" fetchpriority="high" />
+    <link
+      rel="preload"
+      href="Montserrat-Bold.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin="anonymous"
+      fetchpriority="high"
+    />
+    <script>
+      (function () {
+        try {
+          var saved = localStorage.getItem("theme"); // 'light' | 'dark' | null
+          var theme =
+            saved && (saved === "light" || saved === "dark")
+              ? saved
+              : window.matchMedia &&
+                window.matchMedia("(prefers-color-scheme: dark)").matches
+              ? "dark"
+              : "light";
+          document.documentElement.setAttribute("data-theme", theme);
+        } catch (_) {}
+      })();
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Перейти к основному контенту</a>
+    <div class="dashboard-container">
+      <header class="header">
+        <div class="header-content">
+          <div class="logo">
+            <div class="brand-title-row">
+              <h1>MC Recovery Fund</h1>
+              <span class="brand-hero">
+                <img
+                  class="brand-mark brand-mark--hero"
+                  src="logo-mc-recovery.png"
+                  alt=""
+                  width="160"
+                  height="160"
+                  decoding="async"
+                  fetchpriority="high"
+                />
+              </span>
+            </div>
+          </div>
+        </div>
+      </header>
+      <!-- Кнопки действий в хедере (правый верх) -->
+      <div class="header-actions" aria-label="Действия интерфейса">
+        <button
+          id="theme-toggle"
+          class="button button--ghost button--sm"
+          aria-pressed="false"
+          aria-label="Переключить тему"
+          aria-describedby="theme-toggle-note"
+          title="Переключить тему"
+        >
+          <svg
+            class="icon-sun"
+            viewBox="0 0 24 24"
+            width="20"
+            height="20"
+            aria-hidden="true"
+          >
+            <path
+              d="M12 4V2m0 20v-2M4 12H2m20 0h-2M5.64 5.64l-1.42-1.42M19.78 19.78l-1.42-1.42M5.64 18.36l-1.42 1.42M19.78 4.22l-1.42 1.42"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+            />
+            <circle cx="12" cy="12" r="4" fill="currentColor" />
+          </svg>
+          <svg
+            class="icon-moon"
+            viewBox="0 0 24 24"
+            width="20"
+            height="20"
+            aria-hidden="true"
+          >
+            <path
+              d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"
+              fill="currentColor"
+            />
+          </svg>
+        </button>
+        <p id="theme-toggle-note" class="visually-hidden">
+          Тема сохраняется для этого браузера.
+        </p>
+      </div>
+      <div
+        class="filters-section"
+        role="toolbar"
+        aria-label="Фильтры позиций"
+        id="filters"
+      >
+        <div class="filters-container">
+          <div class="filters-grid filters-grid--compact">
+            <div class="filter-group">
+              <button
+                id="filters-more-toggle"
+                class="button button--secondary button--sm"
+                aria-expanded="false"
+                aria-controls="more-filters"
+                type="button"
+                aria-label="Открыть фильтры"
+                data-open-text="Открыть фильтры"
+                data-close-text="Скрыть фильтры"
+              >
+                <span class="button__text">Открыть фильтры</span>
+              </button>
+            </div>
+            <div class="filter-group reset-group">
+              <button
+                class="button button--secondary button--sm"
+                id="reset-filters"
+                type="button"
+                aria-describedby="reset-filters-note"
+              >
+                <span class="button__icon" aria-hidden="true">
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    focusable="false"
+                  >
+                    <polyline points="23 4 23 10 17 10"></polyline>
+                    <polyline points="1 20 1 14 7 14"></polyline>
+                    <path d="M3.51 9a9 9 0 0 1 14.13-3.36L23 10"></path>
+                    <path d="M1 14l5.36 5.36A9 9 0 0 0 20.49 15"></path>
+                  </svg>
+                </span>
+                <span class="button__text">Сбросить фильтры</span>
+              </button>
+              <span id="reset-filters-note" class="visually-hidden"
+                >Сбрасывает все выбранные фильтры и обновляет список
+                позиций.</span
+              >
+            </div>
+          </div>
+          <!-- Постоянная live-зона для статусов фильтров -->
+          <p
+            id="filters-status"
+            class="visually-hidden"
+            role="status"
+            aria-live="polite"
+            aria-atomic="true"
+          ></p>
+          <!-- Панель «все фильтры» (раскрывается по кнопке) -->
+          <div class="more-filters" id="more-filters" hidden>
+            <div class="filter-group">
+              <label class="filter-label" for="year-select">Год:</label>
+              <select class="form-control filter-select" id="year-select">
+                <option value="">Все годы</option>
+              </select>
+            </div>
+            <div class="filter-group">
+              <label class="filter-label" for="month-select">Месяц:</label>
+              <select
+                class="form-control filter-select"
+                disabled
+                id="month-select"
+              >
+                <option value="">Все месяцы</option>
+              </select>
+            </div>
+            <div class="filter-group">
+              <label class="filter-label" for="crypto-select"
+                >Криптовалюта:</label
+              >
+              <select class="form-control filter-select" id="crypto-select">
+                <option value="">Все активы</option>
+              </select>
+            </div>
+            <div class="filter-group">
+              <label class="filter-label" for="leverage-select">Плечо:</label>
+              <select class="form-control filter-select" id="leverage-select">
+                <option value="">Все плечи</option>
+              </select>
+            </div>
+            <div class="filter-group">
+              <label class="filter-label" for="direction-select"
+                >Направление:</label
+              >
+              <select class="form-control filter-select" id="direction-select">
+                <option value="">Все</option>
+                <option value="Long">Лонг</option>
+                <option value="Short">Шорт</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Основное содержимое -->
+      <main class="main-content" id="main-content" role="main">
+        <!-- Панель статистики -->
+        <div class="stats-grid">
+          <div class="card card--stat" data-bg="1">
+            <div class="card__body">
+              <div class="stat-header">
+                <h3 class="stat-title">Общая прибыль</h3>
+              </div>
+              <div
+                class="stat-value"
+                id="total-pnl"
+                aria-live="polite"
+                aria-atomic="true"
+              >
+                $0
+              </div>
+              <div class="stat-subtitle">с учетом комиссий</div>
+            </div>
+          </div>
+          <div class="card card--stat" data-bg="2">
+            <div class="card__body">
+              <div class="stat-header">
+                <h3 class="stat-title">Гросс прибыль</h3>
+              </div>
+              <div
+                class="stat-value"
+                id="total-gross-pnl"
+                aria-live="polite"
+                aria-atomic="true"
+              >
+                $0
+              </div>
+              <div class="stat-subtitle">до вычета комиссий</div>
+            </div>
+          </div>
+          <div class="card card--stat" data-bg="3">
+            <div class="card__body">
+              <div class="stat-header">
+                <h3 class="stat-title">Успешные позиции</h3>
+              </div>
+              <div
+                class="stat-value"
+                id="win-rate"
+                aria-live="polite"
+                aria-atomic="true"
+              >
+                0
+              </div>
+              <div class="stat-subtitle">количество успешных позиций</div>
+            </div>
+          </div>
+          <div class="card card--stat" data-bg="4">
+            <div class="card__body">
+              <div class="stat-header">
+                <h3 class="stat-title">Всего позиций</h3>
+              </div>
+              <div
+                class="stat-value"
+                id="total-positions"
+                aria-live="polite"
+                aria-atomic="true"
+              >
+                0
+              </div>
+              <div class="stat-subtitle">торговых позиций</div>
+            </div>
+          </div>
+          <div class="card card--stat" data-bg="1">
+            <div class="card__body">
+              <div class="stat-header">
+                <h3 class="stat-title">Общие комиссии</h3>
+              </div>
+              <div
+                class="stat-value"
+                id="total-fees"
+                aria-live="polite"
+                aria-atomic="true"
+              >
+                $0
+              </div>
+              <div class="stat-subtitle">комиссии</div>
+            </div>
+          </div>
+          <div class="card card--stat" data-bg="2">
+            <div class="card__body">
+              <div class="stat-header">
+                <h3 class="stat-title">Фандинг</h3>
+              </div>
+              <div
+                class="stat-value"
+                id="total-funding"
+                aria-live="polite"
+                aria-atomic="true"
+              >
+                $0
+              </div>
+              <div class="stat-subtitle">начисления фандинга</div>
+            </div>
+          </div>
+        </div>
+        <!-- Секция графиков -->
+        <div class="charts-section">
+          <div class="card card--chart">
+            <div class="card__body">
+              <figure class="chart-figure">
+                <h3 id="pnl-chart-heading">Распределение прибыли по активам</h3>
+                <p id="pnl-chart-desc" class="visually-hidden">
+                  Кольцевая диаграмма показывает вклад PnL по каждому активу за
+                  выбранный период. Размер сектора пропорционален прибыли;
+                  подсказки показывают только сумму.
+                </p>
+                <div class="chart-container">
+                  <canvas
+                    id="pnl-chart"
+                    aria-label="Распределение прибыли по активам"
+                    aria-describedby="pnl-chart-heading pnl-chart-desc pnl-chart-caption"
+                  ></canvas>
+                </div>
+                <figcaption id="pnl-chart-caption" class="chart-caption">
+                  Вклад активов в общий PnL
+                </figcaption>
+                <details class="chart-data" id="pnl-chart-data-details">
+                  <summary>Показать таблицу данных</summary>
+                  <table
+                    id="pnl-chart-data"
+                    class="chart-data__table"
+                    aria-describedby="pnl-chart-caption"
+                  >
+                    <caption class="visually-hidden">
+                      Таблица данных: Распределение прибыли по активам
+                    </caption>
+                    <thead></thead>
+                    <tbody></tbody>
+                  </table>
+                </details>
+              </figure>
+            </div>
+          </div>
+
+          <div class="card card--chart">
+            <div class="card__body">
+              <figure class="chart-figure">
+                <h3 id="performance-chart-heading">
+                  Успешные сделки по активам
+                </h3>
+                <p id="performance-chart-desc" class="visually-hidden">
+                  Количество успешных сделок по каждому активу. Подсказки
+                  показывают Wins и Total.
+                </p>
+                <div class="chart-container">
+                  <canvas
+                    id="performance-chart"
+                    aria-label="Эффективность по активам"
+                    aria-describedby="performance-chart-heading performance-chart-desc performance-chart-caption"
+                  ></canvas>
+                </div>
+                <figcaption
+                  id="performance-chart-caption"
+                  class="chart-caption"
+                >
+                  Доля успешных сделок (Win rate)
+                </figcaption>
+                <details class="chart-data" id="performance-chart-data-details">
+                  <summary>Показать таблицу данных</summary>
+                  <table
+                    id="performance-chart-data"
+                    class="chart-data__table"
+                    aria-describedby="performance-chart-caption"
+                  >
+                    <caption class="visually-hidden">
+                      Таблица данных: Успешные сделки по активам
+                    </caption>
+                    <thead></thead>
+                    <tbody></tbody>
+                  </table>
+                </details>
+              </figure>
+            </div>
+          </div>
+        </div>
+        <!-- Секция позиций -->
+        <div class="positions-section">
+          <div class="section-header">
+            <div class="section-title-row">
+              <h2 class="section-title">Торговые позиции</h2>
+              <div class="sort-anchor">
+                <button
+                  id="sort-menu-button"
+                  class="icon-button sort-toggle"
+                  type="button"
+                  aria-haspopup="menu"
+                  aria-expanded="false"
+                  aria-controls="sort-menu"
+                  title="Сортировка"
+                >
+                  <svg
+                    width="18"
+                    height="18"
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="M7 4l-4 4h3v8h2V8h3L7 4zm10 16l4-4h-3V8h-2v8h-3l4 4z"
+                      fill="currentColor"
+                    />
+                  </svg>
+                  <span class="visually-hidden">Открыть меню сортировки</span>
+                </button>
+                <div
+                  id="sort-menu"
+                  class="sort-menu"
+                  role="menu"
+                  aria-labelledby="sort-menu-button"
+                  aria-label="Параметры сортировки"
+                  aria-orientation="vertical"
+                  hidden
+                >
+                  <button
+                    class="sort-item"
+                    role="menuitemradio"
+                    data-sort="date-asc"
+                    aria-checked="true"
+                  >
+                    Дата: старые → новые
+                  </button>
+                  <button
+                    class="sort-item"
+                    role="menuitemradio"
+                    data-sort="date-desc"
+                    aria-checked="false"
+                  >
+                    Дата: новые → старые
+                  </button>
+                  <button
+                    class="sort-item"
+                    role="menuitemradio"
+                    data-sort="pnl-asc"
+                    aria-checked="false"
+                  >
+                    PnL (по возрастанию)
+                  </button>
+                  <button
+                    class="sort-item"
+                    role="menuitemradio"
+                    data-sort="pnl-desc"
+                    aria-checked="false"
+                  >
+                    PnL (по убыванию)
+                  </button>
+                  <button
+                    class="sort-item"
+                    role="menuitemradio"
+                    data-sort="coin-asc"
+                    aria-checked="false"
+                  >
+                    Актив (A→Z)
+                  </button>
+                  <button
+                    class="sort-item"
+                    role="menuitemradio"
+                    data-sort="coin-desc"
+                    aria-checked="false"
+                  >
+                    Актив Z → A
+                  </button>
+                  <div
+                    class="sort-sep"
+                    role="separator"
+                    aria-hidden="true"
+                  ></div>
+                  <button
+                    class="sort-item"
+                    role="menuitemradio"
+                    data-sort="direction-short-first"
+                    aria-checked="false"
+                  >
+                    Сначала Шорт
+                  </button>
+                  <button
+                    class="sort-item"
+                    role="menuitemradio"
+                    data-sort="direction-long-first"
+                    aria-checked="false"
+                  >
+                    Сначала Лонг
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div
+              class="positions-count"
+              id="positions-count"
+              aria-live="polite"
+            >
+              Показано: <span id="filtered-count">0</span> из
+              <span id="total-count">0</span>
+            </div>
+          </div>
+          <div class="positions-grid" id="positions-grid"></div>
+        </div>
+      </main>
+      <!-- Сообщение об отсутствии данных -->
+      <div class="no-data-message" id="no-data-message" style="display: none">
+        <div class="no-data-content">
+          <div class="no-data-icon">📈</div>
+          <h3>Нет данных для отображения</h3>
+          <p>
+            Попробуйте изменить фильтры или сбросить их для просмотра всех
+            доступных данных
+          </p>
+        </div>
+      </div>
+    </div>
+    <!-- Библиотеки → сперва Papa 5.5.3, затем Chart.js -->
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/papaparse@5.5.3/papaparse.min.js"
+      integrity="sha384-Jd2/X5FXVKahwaY2nivvw4LfSTg9idSj8yNXWtT4qef0fHSYr6M7M8bJAfbFYoMc"
+      crossorigin="anonymous"
+      referrerpolicy="strict-origin-when-cross-origin"
+    ></script>
+
+    <!-- Подключение Chart.js 4.5.0 -->
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/chart.js@4.5.0/dist/chart.umd.min.js"
+      integrity="sha384-XcdcwHqIPULERb2yDEM4R0XaQKU3YnDsrTmjACBZyfdVVqjh6xQ4/DCMd7XLcA6Y"
+      crossorigin="anonymous"
+      referrerpolicy="strict-origin-when-cross-origin"
+    ></script>
+    <script src="app.js" defer></script>
+    <footer class="site-footer" role="contentinfo">
+      <p>
+        Copyright © 2025 MC Recovery Fund — designed &amp; developed by the MC
+        Recovery Fund team.
+      </p>
+    </footer>
+  </body>
+</html>
