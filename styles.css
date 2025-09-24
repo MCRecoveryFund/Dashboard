@@ -1744,11 +1744,11 @@
     .chart-container {
       aspect-ratio: 1 / 1;
       min-height: clamp(280px, 80vw, 360px);
-      padding-right: 12px;
-      padding-left: 0;
+      padding-inline: 12px;
     }
     .card--chart .chart-figure {
-      margin-left: calc(1 * var(--p, var(--space-16)));
+      margin-left: 0;
+      margin-right: 0;
     }
   }
   @media (max-width: 768px) {

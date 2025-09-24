@@ -778,7 +778,7 @@ class TradingDashboard {
 
     if (winRateElement) {
       winRateElement.textContent = String(winningPositions);
-      winRateElement.title = "Количество выигрышных позиций";
+      winRateElement.title = "Количество успешных позиций";
     }
     if (totalPositionsElement)
       totalPositionsElement.textContent = String(data.length);
@@ -909,7 +909,6 @@ class TradingDashboard {
               font: { size: small ? 11 : 12 },
             },
           },
-          cutout: "45%",
           tooltip: {
             callbacks: {
               label: (context) => {
@@ -963,7 +962,7 @@ class TradingDashboard {
         labels: labels,
         datasets: [
           {
-            label: "Выигрышные сделки",
+            label: "Успешные сделки",
             data: winCounts,
             backgroundColor: colors,
             borderWidth: 0,
