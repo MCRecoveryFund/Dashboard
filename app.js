@@ -5,7 +5,7 @@ const CONFIG = {
   // Hyperliquid Vault settings
   VAULT_ADDRESS: "0x914434e8a235cb608a94a5f70ab8c40927152a24",
   HYPERLIQUID_API_ENDPOINT: "https://api.hyperliquid.xyz/info",
-  
+
   // UI settings
   PAGE_SIZE: 40, // Размер пагинации для позиций
   OBSERVER_ROOT_MARGIN: "200px", // Margin для IntersectionObserver
@@ -14,10 +14,10 @@ const CONFIG = {
 // ✅ DEBUG утилита для контроля логирования
 const DEBUG = {
   enabled: false, // Установить в true для включения логов
-  log: (...args) => DEBUG.enabled && console.log('[DEBUG]', ...args),
-  info: (...args) => DEBUG.enabled && console.info('[INFO]', ...args),
-  warn: (...args) => DEBUG.enabled && console.warn('[WARN]', ...args),
-  error: (...args) => console.error('[ERROR]', ...args) // Ошибки всегда выводятся
+  log: (...args) => DEBUG.enabled && console.log("[DEBUG]", ...args),
+  info: (...args) => DEBUG.enabled && console.info("[INFO]", ...args),
+  warn: (...args) => DEBUG.enabled && console.warn("[WARN]", ...args),
+  error: (...args) => console.error("[ERROR]", ...args), // Ошибки всегда выводятся
 };
 
 class TradingDashboard {
@@ -773,15 +773,18 @@ class TradingDashboard {
       : this.tradingData;
 
     // ✅ Оптимизация: один проход вместо 5 (80% faster)
-    const stats = data.reduce((acc, r) => {
-      const pnl = Number(r.pnl) || 0;
-      acc.totalPnl += pnl;
-      acc.totalMargin += Number(r.margin) || 0;
-      if (pnl > 0) acc.wins++;
-      acc.fees += Number(r.fee) || 0;
-      acc.funding += Number(r.funding) || 0;
-      return acc;
-    }, { totalPnl: 0, totalMargin: 0, wins: 0, fees: 0, funding: 0 });
+    const stats = data.reduce(
+      (acc, r) => {
+        const pnl = Number(r.pnl) || 0;
+        acc.totalPnl += pnl;
+        acc.totalMargin += Number(r.margin) || 0;
+        if (pnl > 0) acc.wins++;
+        acc.fees += Number(r.fee) || 0;
+        acc.funding += Number(r.funding) || 0;
+        return acc;
+      },
+      { totalPnl: 0, totalMargin: 0, wins: 0, fees: 0, funding: 0 }
+    );
 
     const totalPnl = stats.totalPnl;
     const winningPositions = stats.wins;
@@ -1267,7 +1270,7 @@ class TradingDashboard {
 
   // ===== Hyperliquid Vault Methods =====
   // Документация API: https://hyperliquid.gitbook.io/hyperliquid-docs/for-developers/api/info-endpoint
-  
+
   async fetchVaultData() {
     try {
       // ✅ Параллельные запросы для ускорения загрузки
@@ -1350,14 +1353,20 @@ class TradingDashboard {
     // portfolio - массив: [["day", {...}], ["week", {...}], ["allTime", {...}], ...]
     const portfolioMap = new Map(vault.portfolio || []);
     const allTimeData = portfolioMap.get("allTime") || {};
-    
+
     // Account Value - последнее значение из accountValueHistory
     let accountValue = 0;
-    if (allTimeData.accountValueHistory && allTimeData.accountValueHistory.length > 0) {
-      const lastEntry = allTimeData.accountValueHistory[allTimeData.accountValueHistory.length - 1];
+    if (
+      allTimeData.accountValueHistory &&
+      allTimeData.accountValueHistory.length > 0
+    ) {
+      const lastEntry =
+        allTimeData.accountValueHistory[
+          allTimeData.accountValueHistory.length - 1
+        ];
       accountValue = parseFloat(lastEntry[1] || "0");
     }
-    
+
     // Fallback на crossMarginSummary если нет данных в portfolio
     if (accountValue === 0) {
       accountValue = parseFloat(crossMarginSummary?.accountValue || "0");
@@ -1365,14 +1374,15 @@ class TradingDashboard {
 
     // ✅ Используем кэшированные элементы
     if (this.vaultElements.accountValue) {
-      this.vaultElements.accountValue.textContent = this.formatCurrency(accountValue);
+      this.vaultElements.accountValue.textContent =
+        this.formatCurrency(accountValue);
       this.vaultElements.accountValue.className = `vault-stat-value vault-stat-value--large ${
         accountValue >= 0 ? "" : "vault-stat-value--negative"
       }`;
     }
 
     // APR из vaultDetails (в десятичном формате, умножаем на 100)
-    const apr = (parseFloat(vault.apr || "0") * 100);
+    const apr = parseFloat(vault.apr || "0") * 100;
     if (this.vaultElements.apr) {
       this.vaultElements.apr.textContent = `${apr.toFixed(2)}%`;
       this.vaultElements.apr.className = `vault-stat-value vault-stat-value--large vault-stat-value--accent`;
@@ -1381,12 +1391,14 @@ class TradingDashboard {
     // All-Time PnL из portfolio.allTime.pnlHistory (последнее значение)
     let displayPnl = 0;
     if (allTimeData.pnlHistory && allTimeData.pnlHistory.length > 0) {
-      const lastPnlEntry = allTimeData.pnlHistory[allTimeData.pnlHistory.length - 1];
+      const lastPnlEntry =
+        allTimeData.pnlHistory[allTimeData.pnlHistory.length - 1];
       displayPnl = parseFloat(lastPnlEntry[1] || "0");
     }
-    
+
     if (this.vaultElements.allTimePnl) {
-      this.vaultElements.allTimePnl.textContent = this.formatCurrency(displayPnl);
+      this.vaultElements.allTimePnl.textContent =
+        this.formatCurrency(displayPnl);
       this.vaultElements.allTimePnl.className = `vault-stat-value vault-stat-value--large ${
         displayPnl >= 0 ? "" : "vault-stat-value--negative"
       }`;
@@ -1404,7 +1416,7 @@ class TradingDashboard {
     if (this.vaultElements.positionsList) {
       // ✅ Используем DocumentFragment для пакетного обновления DOM
       const fragment = document.createDocumentFragment();
-      
+
       if (openPositions.length > 0) {
         openPositions.forEach((pos) => {
           const card = this.renderVaultPosition(pos);
@@ -1418,7 +1430,7 @@ class TradingDashboard {
           "text-align: center; padding: var(--space-16); color: var(--page-text-secondary);";
         fragment.appendChild(emptyMsg);
       }
-      
+
       // Одна операция вместо множественных appendChild
       this.vaultElements.positionsList.innerHTML = "";
       this.vaultElements.positionsList.appendChild(fragment);
@@ -1478,9 +1490,7 @@ class TradingDashboard {
     };
 
     details.appendChild(createDetail("Size:", Math.abs(szi).toFixed(2)));
-    details.appendChild(
-      createDetail("Entry:", `$${entryPx.toFixed(2)}`)
-    );
+    details.appendChild(createDetail("Entry:", `$${entryPx.toFixed(2)}`));
     details.appendChild(createDetail("Leverage:", `${leverage}x`));
 
     card.appendChild(header);
@@ -1524,7 +1534,7 @@ class TradingDashboard {
     }
     // Уничтожение графиков
     if (this.charts) {
-      Object.values(this.charts).forEach(chart => chart?.destroy?.());
+      Object.values(this.charts).forEach((chart) => chart?.destroy?.());
       this.charts = {};
     }
   }
