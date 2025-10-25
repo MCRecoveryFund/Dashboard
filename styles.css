@@ -347,7 +347,7 @@
     --page-bg-logo-opacity: 0.3;
     --page-bg-logo-size: clamp(480px, 32vw, 1080px);
     --page-bg-logo-pos-y: 40%;
-    --page-bg-logo-url: url("logo-mc-recovery.png");
+    --page-bg-logo-url: url("logo-mc-recovery.webp");
     --page-text: var(--text-1);
     --page-text-secondary: var(--text-2);
     --brand-hero-text: hsl(220 28% 12%);
@@ -392,7 +392,7 @@
     --page-bg-logo-opacity: 0.3;
     --page-focus-outline: 2px solid color-mix(in hsl, var(--focus) 86%, white);
     --brand-hero-text: hsl(0 0% 100%);
-    --page-bg-logo-url: url("logo-mc-recovery.png");
+    --page-bg-logo-url: url("logo-mc-recovery.webp");
   }
   @supports (color: oklch(0 0 0)) {
     :root[data-theme="dark"] {
@@ -1914,5 +1914,241 @@
   }
   .site-footer a {
     color: var(--link);
+  }
+
+  /* Hyperliquid Vault Widget */
+  .vault-widget {
+    background: var(--page-card-bg);
+    border: 1px solid var(--page-card-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-24);
+    margin-bottom: var(--space-32);
+    box-shadow: var(--page-shadow);
+    transition: border-color var(--duration-normal) var(--ease-standard);
+  }
+
+  .vault-widget:hover {
+    border-color: var(--stat-card-border-hover);
+  }
+
+  .vault-header {
+    margin-bottom: var(--space-24);
+  }
+
+  .vault-title-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-12);
+  }
+
+  .vault-title {
+    display: flex;
+    align-items: center;
+    gap: var(--space-12);
+    font-size: var(--font-size-3xl);
+    font-weight: var(--font-weight-bold);
+    margin: 0;
+  }
+
+  .vault-icon {
+    color: var(--accent);
+  }
+
+  .vault-refresh-btn {
+    padding: var(--space-8);
+    color: var(--page-text-secondary);
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-base);
+    cursor: pointer;
+    transition: all var(--duration-fast) var(--ease-standard);
+  }
+
+  .vault-refresh-btn:hover {
+    color: var(--accent);
+    background: var(--accent-ghost);
+    border-color: var(--accent);
+  }
+
+  .vault-refresh-btn.spinning svg {
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  .vault-update-time {
+    font-size: var(--font-size-sm);
+    color: var(--page-text-secondary);
+  }
+
+  .vault-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--space-20);
+    margin-bottom: var(--space-24);
+  }
+
+  .vault-stat-card {
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: var(--space-20);
+  }
+
+  .vault-stat-label {
+    font-size: var(--font-size-md);
+    color: var(--page-text-secondary);
+    margin-bottom: var(--space-8);
+  }
+
+  .vault-stat-value {
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-bold);
+    color: var(--pnl-positive-text);
+  }
+
+  .vault-stat-value--large {
+    font-size: var(--font-size-3xl);
+  }
+
+  .vault-stat-value--accent {
+    color: var(--accent);
+  }
+
+  .vault-stat-value--negative {
+    color: var(--pnl-negative-text);
+  }
+
+  .vault-positions {
+    margin-bottom: var(--space-24);
+  }
+
+  .vault-positions-title {
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-semibold);
+    margin-bottom: var(--space-16);
+  }
+
+  .vault-positions-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-12);
+  }
+
+  .vault-position-card {
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: var(--space-16);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-12);
+  }
+
+  .vault-position-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .vault-position-coin {
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-bold);
+  }
+
+  .vault-position-pnl {
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-bold);
+  }
+
+  .vault-position-pnl--positive {
+    color: var(--pnl-positive-text);
+  }
+
+  .vault-position-pnl--negative {
+    color: var(--pnl-negative-text);
+  }
+
+  .vault-position-details {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: var(--space-16);
+  }
+
+  .vault-position-detail {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .vault-position-detail-label {
+    font-size: var(--font-size-sm);
+    color: var(--positions-detail-label-text);
+  }
+
+  .vault-position-detail-value {
+    font-size: var(--font-size-md);
+    font-weight: var(--font-weight-semibold);
+  }
+
+  .vault-link-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-8);
+    padding: var(--space-16) var(--space-24);
+    background: var(--accent-bg);
+    color: var(--accent-ink);
+    border: none;
+    border-radius: var(--radius-base);
+    font-size: var(--font-size-md);
+    font-weight: var(--font-weight-semibold);
+    text-decoration: none;
+    cursor: pointer;
+    transition: all var(--duration-fast) var(--ease-standard);
+    width: 100%;
+  }
+
+  .vault-link-button:hover {
+    background: var(--btn-bg-hover);
+    color: var(--accent-ink);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  .vault-link-button:active {
+    transform: translateY(0);
+  }
+
+  @media (max-width: 768px) {
+    .vault-stats {
+      grid-template-columns: 1fr;
+    }
+
+    .vault-position-details {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 480px) {
+    .vault-widget {
+      padding: var(--space-16);
+    }
+
+    .vault-title {
+      font-size: var(--font-size-2xl);
+    }
+
+    .vault-stat-value--large {
+      font-size: var(--font-size-2xl);
+    }
   }
 }
